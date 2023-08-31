@@ -1,0 +1,59 @@
+FROM rocker/r-ver as base
+
+
+RUN apt-get update && apt-get install -y \
+  zlib1g-dev \
+  libpng-dev \
+  pkg-config \
+  libicu-dev \
+  libcairo2-dev \
+  libtiff5-dev \
+  libharfbuzz-dev \
+  libfribidi-dev \
+  automake \
+  autotools-dev \
+  libtool \
+  m4 \
+  && rm -rf /var/lib/apt/lists/*
+
+# list all the needed packages here in the same fashion
+RUN R -e "install.packages('shiny',dependencies=TRUE, repos='http://cran.rstudio.com/')";
+
+FROM base as shiny
+RUN R -e "install.packages('shinydashboard',dependencies=TRUE, repos='http://cran.rstudio.com/')";
+
+FROM shiny as shinydashboard
+
+
+RUN R -e "install.packages('DT',dependencies=TRUE, repos='http://cran.rstudio.com/')";
+FROM shinydashboard as dt
+
+RUN apt-get update && apt-get install -y \
+  libcurl4-openssl-dev \
+  libpq-dev \
+  libmysqlclient-dev \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN R -e "install.packages('dplyr',dependencies=TRUE, repos='http://cran.rstudio.com/')";
+FROM dt as dplyr
+
+
+RUN apt-get update && apt-get install -y \
+  libxml2-dev \
+  libudunits2-dev \
+  libsodium-dev \
+  libgdal-dev \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN R -e "install.packages('plumber',dependencies=TRUE, repos='http://cran.rstudio.com/')";
+
+FROM dplyr as plumber
+
+# RUN R -e "install.packages('ggplot2',dependencies=TRUE, repos='http://cran.rstudio.com/')";
+# FROM dt as ggplot2
+
+COPY . .
+
+# EXPOSE 8000
+# to launch your docker container
+CMD ["Rscript", "global.R"]

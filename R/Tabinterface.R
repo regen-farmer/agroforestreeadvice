@@ -129,7 +129,7 @@ moduleTabInterface_Server <- function(id, language, data = dataDENTRO, interface
           message(paste("computing suitability graph with"), paste(names(allinputs), collapse=" "))
           #dfSuitability<-data.frame(species="icicici", side="responsetrait", value=1, BigCriteria="debugging")
           
-          dfSuitability<-functionSuitability(inputsdata=allinputs, interface=interface, database=data,
+          dfSuitability<-functionSuitability(inputsdata=allinputs, interface=NULL, database=NULL,
                                              orderby = orderby)
         } else{
           dfSuitability<-data.frame(species="no data yet", side="responsetrait", value=1, BigCriteria="please describe your site and objectives")

@@ -8,6 +8,10 @@ library(ggplot2)
 library(shinydashboard)
 library(DT)
 library(dplyr)
+
+library(plumber)
+
+
 ##global----
 
 #load("~/a_ABSYS/autreschercheurs/BertReubens/FlandersTreeAdvice/dataDENTRO.Rdata")
@@ -125,6 +129,10 @@ compute_suitability_DENTRO<-function(inputsdata=NULL,
                                      database, 
                                      interface,
                                      orderby="responsetrait"){
+  
+  database = dataDENTRO
+  interface = interfaceDENTRO
+  
   print("suitability")
   
   message(str(inputsdata))
@@ -209,6 +217,9 @@ compute_suitability_STA<-function(inputsdata=NULL,
                                   database, 
                                   interface,
                                   orderby="responsetrait"){
+  
+  database = dataSTA
+  interface = interfaceSTA
   
   #print(str(inputsdata))
   interface<-interface[!is.na(interface$side),]
@@ -339,6 +350,12 @@ compute_suitability_DECIDUOUS<-function(inputsdata=NULL,
                                         database, 
                                         interface,
                                         orderby="responsetrait"){
+  
+  database = dataDECIDUOUS
+  interface = interfaceDECIDUOUS
+  
+  
+  
   # # on stocke toutes les entrées utilisateur
   # user_risque_gel_tardif <- inputsdata["user_gel_tardif"]
   # user_risk_def_hyd <- inputsdata["user_risk_def_hyd"]
@@ -477,10 +494,21 @@ compute_suitability_DECIDUOUS<-function(inputsdata=NULL,
 }
 
 
+
+
 compute_suitability_SCSM<-function(inputsdata=NULL,
                                         database, 
                                         interface,
                                         orderby="responsetrait"){
+  
+  print(inputsdata)
+  print(typeof(inputsdata))
+  
+  saveinput <- inputsdata
+  
+  
+  database = dataSCSM
+  interface = interfaceSCSM
   
   database['BigCriteria']='climate'
   database['side']='responsetrait'
@@ -505,6 +533,10 @@ compute_suitability_SCSM<-function(inputsdata=NULL,
 
 }
 
+
+
+
+
 #colorscontrols<-c("")
 # Brown: #A52A2A
 #   Peach: #FFDAB9
@@ -518,3 +550,7 @@ compute_suitability_SCSM<-function(inputsdata=NULL,
 #   Midnight Blue: #191970
 #   Honeydew3: #C1CDC1
 #   Orange2: #EE9A00
+
+pr('plumber.R') %>%
+  pr_run(host="0.0.0.0", port=8000)
+

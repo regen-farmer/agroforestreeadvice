@@ -1,0 +1,54 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load .dockerignore
+#1 transferring context: 2B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.plumber
+#2 transferring dockerfile: 1.46kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/rocker/r-ver:latest
+#3 DONE 0.7s
+
+#4 [base 1/3] FROM docker.io/rocker/r-ver@sha256:1b67ee00b24b70792ea057a935f6ae26d759570310ff8bee0489350bbad23779
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 78.76kB 0.0s done
+#5 DONE 0.0s
+
+#6 [dplyr 1/2] RUN apt-get update && apt-get install -y   libxml2-dev   libudunits2-dev   libsodium-dev   libgdal-dev   && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [base 2/3] RUN apt-get update && apt-get install -y   zlib1g-dev   libpng-dev   pkg-config   libicu-dev   libcairo2-dev   libtiff5-dev   libharfbuzz-dev   libfribidi-dev   automake   autotools-dev   libtool   m4   && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [shinydashboard 1/1] RUN R -e "install.packages('DT',dependencies=TRUE, repos='http://cran.rstudio.com/')";
+#8 CACHED
+
+#9 [base 3/3] RUN R -e "install.packages('shiny',dependencies=TRUE, repos='http://cran.rstudio.com/')";
+#9 CACHED
+
+#10 [shiny 1/1] RUN R -e "install.packages('shinydashboard',dependencies=TRUE, repos='http://cran.rstudio.com/')";
+#10 CACHED
+
+#11 [dt 1/2] RUN apt-get update && apt-get install -y   libcurl4-openssl-dev   libpq-dev   libmysqlclient-dev   && rm -rf /var/lib/apt/lists/*
+#11 CACHED
+
+#12 [dt 2/2] RUN R -e "install.packages('dplyr',dependencies=TRUE, repos='http://cran.rstudio.com/')";
+#12 CACHED
+
+#13 [dplyr 2/2] RUN R -e "install.packages('plumber',dependencies=TRUE, repos='http://cran.rstudio.com/')";
+#13 CACHED
+
+#14 [plumber 1/1] COPY . .
+#14 DONE 0.0s
+
+#15 exporting to image
+#15 exporting layers 0.0s done
+#15 writing image sha256:3e7309cf22030d28ef87091e6f210137cd16aa79e6219fcebcd6ba755bbf663f done
+#15 DONE 0.0s
+
+What's Next?
+  View summary of image vulnerabilities and recommendations → docker scout quickview
